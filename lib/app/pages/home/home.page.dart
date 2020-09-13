@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:semana_arquitetura_app/app/components/custom_switch.widget.dart';
+
+import 'components/custom_switch.widget.dart';
 
 class HomePage extends StatefulWidget {
   @override
