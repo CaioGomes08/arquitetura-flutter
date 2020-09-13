@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
-import 'package:semana_arquitetura_app/app/interfaces/local_storage.interface.dart';
-import 'package:semana_arquitetura_app/app/models/app_config.model.dart';
 import 'package:semana_arquitetura_app/app/services/shared_local_storage.service.dart';
+import 'package:semana_arquitetura_app/app/viewmodels/change_theme.viewmodel.dart';
 
 class AppController {
   // Singleton
@@ -9,19 +8,14 @@ class AppController {
 
   // Criação de um construtor privado, para proteger o singleton de uma nova instancia;
   AppController._() {
-    storage.get('isDark').then((value) {
-      if (value != null) themeSwitch.value = value;
-    });
+    changeThemeViewModel.init();
   }
 
-  final AppConfigModel config = AppConfigModel();
-  bool get isDark => config.themeSwitch.value;
-  ValueNotifier<bool> get themeSwitch => config.themeSwitch;
+  final ChangeThemeViewModel changeThemeViewModel =
+      ChangeThemeViewModel(storage: SharedLocalStorageService());
 
-  final ILocalStorage storage = SharedLocalStorageService();
-
-  changeTheme(bool value) {
-    themeSwitch.value = value;
-    storage.save('isDark', value);
-  }
+  // Criando um get para ter acesso facilitado em outras pages.
+  bool get isDark => changeThemeViewModel.config.themeSwitch.value;
+  ValueNotifier<bool> get themeSwitch =>
+      changeThemeViewModel.config.themeSwitch;
 }
